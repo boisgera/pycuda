@@ -1,0 +1,17 @@
+[project]
+authors = ["Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>"]
+channels = ["conda-forge"]
+name = "tmp"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = ">=3.13.2,<3.14"
+gxx = "*"
+cuda = "*"
+numpy = ">=2.2.3,<3"
+
+[pypi-dependencies]
+pycuda = ">=2025.1, <2026"
