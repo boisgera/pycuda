@@ -28,6 +28,10 @@ n = 1000
 a = np.random.randn(n).astype(np.float32)
 b = np.random.randn(n).astype(np.float32)
 
+# Define block and grid sizes
+block_size = 128
+grid_size = (n + block_size - 1) // block_size
+
 t0 = time.time()
 
 # Allocate memory for the result vector on the host
@@ -41,10 +45,6 @@ c_gpu = cuda.mem_alloc(c.nbytes)
 # Copy data from host to device
 cuda.memcpy_htod(a_gpu, a)
 cuda.memcpy_htod(b_gpu, b)
-
-# Define block and grid sizes
-block_size = 128
-grid_size = (n + block_size - 1) // block_size
 
 # Launch the kernel on the GPU
 vector_add(a_gpu, b_gpu, c_gpu, np.int32(n), block=(block_size, 1, 1), grid=(grid_size, 1))
@@ -60,5 +60,7 @@ t2 = time.time()
 # Print the results
 print("Vector A:", a)
 print("Vector B:", b)
-print("Vector C (A + B):", c, "dt:", t1 - t0)
-print("Vector D (A + B):", d, "dt:", t2 - t1)
+print("Vector C (A + B):", c)
+print("Vector D (A + B):", d)
+print( "GPU Time:", t1 - t0)
+print( "NumPy Time:", t2 - t1)
