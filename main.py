@@ -22,7 +22,9 @@ mod = SourceModule(kernel_code, options=["-Wno-deprecated-gpu-targets"])
 vector_add = mod.get_function("vector_add")
 
 # Define the size of the vectors
-n = 1000
+n = 200_000_000
+
+print(f"VRAM used: {3 * 4 * n / 2**30:.3f} GiB")
 
 # Create input vectors on the host (CPU)
 a = np.random.randn(n).astype(np.float32)
@@ -58,9 +60,14 @@ d = a + b
 t2 = time.time()
 
 # Print the results
-print("Vector A:", a)
-print("Vector B:", b)
-print("Vector C (A + B):", c)
-print("Vector D (A + B):", d)
-print( "GPU Time:", t1 - t0)
+#print("Vector A:", a)
+#print("Vector B:", b)
+#print("Vector C (A + B):", c)
+#print("Vector D (A + B):", d)
 print( "NumPy Time:", t2 - t1)
+print( "GPU Time:", t1 - t0)
+r = (t2 - t1) / (t1 - t0)
+print(f"GPU is {r:.1f}x faster than NumPy")
+
+
+
